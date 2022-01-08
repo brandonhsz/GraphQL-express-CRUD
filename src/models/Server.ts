@@ -6,10 +6,9 @@ import { Users } from '../models/Users';
 export class Server {
   app: any;
   port?: number;
-  constructor(port? : number){
+  constructor(){
 
-    this.port = port;
-
+    require('dotenv').config();
     this.app = express();
     this.settings();
     this.mySql();
@@ -17,13 +16,17 @@ export class Server {
     this.graphql();
     this.listen();
   
-
   }
 
   settings(){
 
-    this.app.set('port', this.port ||process.env.PORT || 3000);
+    this.app.set('port', process.env.PORT || 3000);
     
+  }
+
+
+  middlewares(){
+    this.app.use()
   }
 
 
@@ -44,8 +47,8 @@ export class Server {
 
      await createConnection({
       type: 'postgres',
-      username: 'root',
-      password: 'root',
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
       port: 5432,
       host: 'localhost',
       database: 'usersdb',
