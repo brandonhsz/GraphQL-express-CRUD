@@ -21,6 +21,10 @@ export class Server {
   settings(){
 
     this.app.set('port', process.env.PORT || 3000);
+    this.app.set('DB_USERNAME', process.env.DB_USER);
+    this.app.set('DB_PASSWORD', process.env.DB_PASS);
+    this.app.set('DB_HOST', process.env.DB_HOST);
+    this.app.set('DB_PORT', process.env.DB_PORT);
     
   }
 
@@ -47,10 +51,10 @@ export class Server {
 
      await createConnection({
       type: 'postgres',
-      username: process.env.DB_USER,
-      password: process.env.DB_PASS,
-      port: 5432,
-      host: 'localhost',
+      username: this.app.get('DB_USERNAME'),
+      password: this.app.get('DB_PASSWORD'),
+      port: this.app.get('DB_PORT'),
+      host: this.app.get('DB_HOST'),
       database: 'usersdb',
       entities: [Users],
       synchronize: true,
